@@ -1,0 +1,16 @@
+{
+  "name": "ids-labs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild labs-2022/index.js --bundle --outfile=labs-2022/dist/index.js --loader:.html=text"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.15.1",
+    "reveal.js": "^4.3.1"
+  }
+}
