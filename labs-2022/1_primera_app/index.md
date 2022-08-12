@@ -80,7 +80,7 @@ Navegador
 ==
 
 <section data-background-color="#D30001">
-  <img src="https://rubyonrails.org/assets/images/logo.svg" class="r-stretch">
+  <img src="https://rubyonrails.org/assets/images/logo.svg" width="300">
 </section>
 
 ==
