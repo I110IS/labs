@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild labs-2022/index.js --bundle --outfile=labs-2022/dist/index.js --loader:.html=text"
+    "build": "esbuild labs-2022/index.js --bundle --outfile=labs-2022/dist/index.js --loader:.html=text --loader:.woff=file --loader:.eot=file --loader:.ttf=file && esbuild practicas-2022/index.js --bundle --outfile=practicas-2022/dist/index.js --loader:.html=text --loader:.woff=file --loader:.eot=file --loader:.ttf=file"
   },
   "author": "",
   "license": "ISC",
