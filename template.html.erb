@@ -1,0 +1,20 @@
+<%# Local variables:
+    path: The path to the markdown file.
+    separator: The separator for horizontal slides.
+    separator_vertical: The separator for vertical slides. %>
+<html>
+  <head>
+    <link rel="stylesheet" href="/template.css">
+    <script type="module" src="/template.js"></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown="<%= path %>"
+                 data-separator="<%= separator %>"
+                 data-separator-vertical="<%= separator_vertical %>"
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+require "erb"
+require "fileutils"
+require "yaml"
+
+# Read config
+config = File.read("config.yml")
+config = YAML.load(config)
+
+# Create dist folder
+dist_path = config.fetch("dist_path", "dist")
+FileUtils.remove_dir(dist_path, true) if Dir.exist?(dist_path)
+FileUtils.mkdir(dist_path)
+
+# Defaults
+variable_defaults = {
+  separator: '^\n==\n',
+  separator_vertical: '^\n--\n'
+}
+
+template = File.read("template.html.erb")
+
+paths = config["paths"].to_h do |path|
+  [path, Dir["#{path}/**/*.md"]]
+end
+
+paths.each do |path, files|
+  FileUtils.mkdir_p("#{dist_path}/#{path}")
+
+  files.each do |file|
+    erb = ERB.new(template)
+    variables = variable_defaults.merge({
+      path: "/#{file}"
+    })
+    content = erb.result_with_hash(variables)
+    File.open("#{dist_path}/#{path}/#{File.basename(file, ".md")}.html", "w") do |f|
+      f.write(content)
+    end
+    FileUtils.copy(file, "#{dist_path}/#{file}")
+  end
+end
+
+system("npm run build")
