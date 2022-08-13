@@ -1,3 +1,8 @@
+---
+theme: serif
+published: false
+---
+
 # Laboratorio 1 IS2022
 
 Los comandos deben ejecutarse en la consola.

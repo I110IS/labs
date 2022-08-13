@@ -2,11 +2,14 @@
 
 require "erb"
 require "fileutils"
+require "set"
 require "yaml"
+require_relative "lib/frontmatter"
+require_relative "lib/deep_transform_keys"
 
 # Read config
 config = File.read("config.yml")
-config = YAML.load(config)
+config = YAML.load(config).deep_transform_keys(&:to_sym)
 
 # Create dist folder
 dist_path = config.fetch("dist_path", "dist")
@@ -18,51 +21,77 @@ variable_defaults = {
   node_modules: File.join(Dir.getwd, "node_modules"),
   separator: '^\n==\n',
   separator_vertical: '^\n--\n',
-  theme: config["theme"]
+  theme: config[:theme]
 }
 
 template = File.read("template.html.erb")
 js_template = File.read("template.js.erb")
 
-paths = config["paths"].map do |path_object|
+# Collect all md files to build
+paths = config[:paths].map do |path_object|
   path_object.merge({
-    "files" => Dir["#{path_object["path"]}/**/*.md"]
+    files: Dir["#{path_object[:path]}/**/*.md"]
   })
 end
 
-paths.each do |data_path|
-  path = data_path["path"]
-  puts "\n\n> Create #{path}"
-  FileUtils.mkdir_p("#{dist_path}/#{path}")
+# Collect all used themes
+themes = Set.new
 
-  # Create JS file
-  erb = ERB.new(js_template)
-  variables = variable_defaults.merge({
-    theme: data_path["theme"]
-  }.compact)
+# Add default variables and front matter config to each file
+# Same structure as in config.yml plus a +files+ key.
+#   files:
+#     path_to_file: { config_1: true, config_2: 'something else' }
+#     another_path: { config_1: false, config_2: 'something' }
+paths = paths.map do |path_object|
+  path_object[:files] = path_object[:files].to_h do |file|
+    frontmatter = Frontmatter.new(file)
+    variables = variable_defaults.merge(frontmatter.config)
+    variables[:theme] = path_object[:theme] if path_object[:theme] && frontmatter.config[:theme].nil?
+    variables[:path] = "/#{file}"
+    themes.add(variables[:theme])
+
+    [
+      file,
+      variables
+    ]
+  end
+
+  path_object
+end
+
+# Create JS files
+erb = ERB.new(js_template)
+
+themes.each do |theme|
+  next if theme.nil?
+  puts "> Creating #{theme} JS file"
+  variables = variable_defaults.merge({theme: theme})
   content = erb.result_with_hash(variables)
-  File.open("#{dist_path}/#{path}/index.js", "w") { |file| file.write(content) }
+  File.open("#{dist_path}/#{theme}.js", "w") { |file| file.write(content) }
   system("npx esbuild --bundle "\
-         "#{dist_path}/#{path}/index.js "\
+         "#{dist_path}/#{theme}.js "\
          "--bundle "\
-         "--outfile=#{dist_path}/#{path}/bundle.js "\
+         "--outfile=#{dist_path}/#{theme}.js "\
+         "--allow-overwrite "\
          "--loader:.html=text "\
          "--loader:.woff=file "\
          "--loader:.eot=file "\
          "--loader:.ttf=file")
+end
 
-  data_path["files"].each do |file|
+paths.each do |data_path|
+  path = data_path[:path]
+  puts "\n\n> Create #{path}"
+  FileUtils.mkdir_p("#{dist_path}/#{path}")
+
+  data_path[:files].each do |file, config|
     puts "\t> #{file}"
     erb = ERB.new(template)
-    variables = variable_defaults.merge({
-      path: "/#{file}",
-      theme: data_path["theme"],
-      bundle_path: "/#{path}"
-    }.compact)
-    content = erb.result_with_hash(variables)
+    content = erb.result_with_hash(config)
     File.open("#{dist_path}/#{path}/#{File.basename(file, ".md")}.html", "w") do |f|
       f.write(content)
     end
     FileUtils.copy(file, "#{dist_path}/#{file}")
+    Frontmatter.new("#{dist_path}/#{file}").delete
   end
 end

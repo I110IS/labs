@@ -2,11 +2,11 @@
     path: The path to the markdown file.
     separator: The separator for horizontal slides.
     separator_vertical: The separator for vertical slides.
-    bundle_path: Path to the folder containing both css and js files. %>
+    theme: Name of the theme used. %>
 <html>
   <head>
-    <link rel="stylesheet" href="<%= bundle_path %>/bundle.css">
-    <script type="module" src="<%= bundle_path %>/bundle.js"></script>
+    <link rel="stylesheet" href="/<%= theme %>.css">
+    <script type="module" src="/<%= theme %>.js"></script>
   </head>
   <body>
     <div class="reveal">

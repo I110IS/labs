@@ -1,3 +1,8 @@
+---
+published: false
+theme: sky
+---
+
 <!-- %s/^##\{1\}\s/### /g -->
 ## Ingeniería de Software 2022
 Laboratorio 1 - Primera app
