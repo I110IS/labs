@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild template.js --bundle --outfile=dist/template.js --loader:.html=text --loader:.woff=file --loader:.eot=file --loader:.ttf=file"
   },
   "author": "",
   "license": "ISC",
