@@ -15,24 +15,50 @@ FileUtils.mkdir(dist_path)
 
 # Defaults
 variable_defaults = {
+  node_modules: File.join(Dir.getwd, "node_modules"),
   separator: '^\n==\n',
-  separator_vertical: '^\n--\n'
+  separator_vertical: '^\n--\n',
+  theme: config["theme"]
 }
 
 template = File.read("template.html.erb")
+js_template = File.read("template.js.erb")
 
-paths = config["paths"].to_h do |path|
-  [path, Dir["#{path}/**/*.md"]]
+paths = config["paths"].map do |path_object|
+  path_object.merge({
+    "files" => Dir["#{path_object["path"]}/**/*.md"]
+  })
 end
 
-paths.each do |path, files|
+paths.each do |data_path|
+  path = data_path["path"]
+  puts "\n\n> Create #{path}"
   FileUtils.mkdir_p("#{dist_path}/#{path}")
 
-  files.each do |file|
+  # Create JS file
+  erb = ERB.new(js_template)
+  variables = variable_defaults.merge({
+    theme: data_path["theme"]
+  }.compact)
+  content = erb.result_with_hash(variables)
+  File.open("#{dist_path}/#{path}/index.js", "w") { |file| file.write(content) }
+  system("npx esbuild --bundle "\
+         "#{dist_path}/#{path}/index.js "\
+         "--bundle "\
+         "--outfile=#{dist_path}/#{path}/bundle.js "\
+         "--loader:.html=text "\
+         "--loader:.woff=file "\
+         "--loader:.eot=file "\
+         "--loader:.ttf=file")
+
+  data_path["files"].each do |file|
+    puts "\t> #{file}"
     erb = ERB.new(template)
     variables = variable_defaults.merge({
-      path: "/#{file}"
-    })
+      path: "/#{file}",
+      theme: data_path["theme"],
+      bundle_path: "/#{path}"
+    }.compact)
     content = erb.result_with_hash(variables)
     File.open("#{dist_path}/#{path}/#{File.basename(file, ".md")}.html", "w") do |f|
       f.write(content)
@@ -40,5 +66,3 @@ paths.each do |path, files|
     FileUtils.copy(file, "#{dist_path}/#{file}")
   end
 end
-
-system("npm run build")
