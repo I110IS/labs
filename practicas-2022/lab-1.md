@@ -1,6 +1,6 @@
 ---
 theme: serif
-published: false
+published: true
 ---
 
 # Laboratorio 1 IS2022

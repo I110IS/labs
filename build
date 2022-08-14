@@ -85,13 +85,17 @@ paths.each do |data_path|
   FileUtils.mkdir_p("#{dist_path}/#{path}")
 
   data_path[:files].each do |file, config|
-    puts "\t> #{file}"
-    erb = ERB.new(template)
-    content = erb.result_with_hash(config)
-    File.open("#{dist_path}/#{path}/#{File.basename(file, ".md")}.html", "w") do |f|
-      f.write(content)
+    if config.fetch(:published, false)
+      puts "\t> #{file}"
+      erb = ERB.new(template)
+      content = erb.result_with_hash(config)
+      File.open("#{dist_path}/#{path}/#{File.basename(file, ".md")}.html", "w") do |f|
+        f.write(content)
+      end
+      FileUtils.copy(file, "#{dist_path}/#{file}")
+      Frontmatter.new("#{dist_path}/#{file}").delete
+    else
+      puts "\t> #{file} (skipped)"
     end
-    FileUtils.copy(file, "#{dist_path}/#{file}")
-    Frontmatter.new("#{dist_path}/#{file}").delete
   end
 end
