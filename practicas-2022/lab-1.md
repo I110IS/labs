@@ -1,5 +1,4 @@
 ---
-theme: serif
 published: true
 ---
 

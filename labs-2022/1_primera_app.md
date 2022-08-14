@@ -1,6 +1,5 @@
 ---
 published: true
-theme: sky
 ---
 
 <!-- %s/^##\{1\}\s/### /g -->
