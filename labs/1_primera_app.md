@@ -375,7 +375,7 @@ Se pueden combinar los métodos.
 --
 
 ```ruby [3-6]
-demogorgon = Monster.find(name: "Demogorgon")
+demogorgon = Monster.find_by(name: "Demogorgon")
 t = Tweet.find(3)
 t.update(
   content: "Encontré monolentes!",
