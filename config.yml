@@ -1,5 +1,3 @@
 theme: night
 paths:
-  - path: labs-2022
-  - path: practicas-2022
-    theme: white
+  - path: labs

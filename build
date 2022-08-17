@@ -14,7 +14,9 @@ config = YAML.load(config).deep_transform_keys(&:to_sym)
 # Create dist folder
 dist_path = config.fetch("dist_path", "dist")
 FileUtils.mkdir(dist_path) unless Dir.exist?(dist_path)
-FileUtils.rm_r(Dir.glob("#{dist_path}/**/*.{html,css,js,woff,ttf,eot}"))
+FileUtils.rm_r(Dir.glob("#{dist_path}/**/*.{html,css,js,woff,ttf,eot,md}"))
+
+# TODO: Remove empty folders in dist
 
 # Defaults
 variable_defaults = {

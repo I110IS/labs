@@ -89,7 +89,7 @@ Navegador
 
 ==
 
-## Practiquemos comandos
+## Sobre rails
 
 --
 
@@ -179,9 +179,17 @@ Ver el estado de los archivos
 --
 
 ```
-git add
+git add FILES
 ```
 Para agregar los archivos para el próximo commit
+
+```bash
+# Agrega todos los archivos del directorio actual
+git add .
+
+# Agrega los archivos Gemfile y Gemfile.lock
+git add Gemfile Gemfile.lock
+```
 
 --
 
@@ -189,6 +197,12 @@ Para agregar los archivos para el próximo commit
 git commit
 ```
 Para confirmar localmente los archivos
+
+```bash
+# Commiteando con mensaje
+git commit -m "Gurdando emails en minúsculas"
+```
+
 
 --
 
@@ -200,9 +214,47 @@ Para descargar los cambios realizados en el repositorio remoto
 --
 
 ```
-git push
+git push REMOTE BRANCH
 ```
 Para enviar los cambios al repositorio remoto
+
+```
+# Para enviar la rama local 'downcased-emails'
+# al repositorio remoto llamado 'origin'
+git push origin downcased-emails
+```
+
+--
+
+```
+git checkout BRANCH
+```
+Para moverse a otra rama
+
+--
+
+```
+git checkout -b BRANCH
+```
+Para crear una nueva rama con nombre BRANCH
+
+--
+
+```
+git remote
+```
+Para revisar los repositorios remotos presentes en tu repositorio local
+
+--
+
+```
+git remote add REMOTE_NAME REMOTE_URL
+```
+Para agregar un repositorio remoto en tu repositorio git local
+
+```
+git remote add origin git@github.com:i110is/lab1.git
+```
 
 ==
 
