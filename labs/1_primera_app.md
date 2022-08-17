@@ -332,7 +332,7 @@ El ID lo asigna la DB automáticamente.
 
 [Rails Guides](https://guides.rubyonrails.org/active_record_basics.html#create)
 
---
+==
 
 ### Read
 
@@ -368,7 +368,7 @@ Se pueden combinar los métodos.
 
 [Rails Guides](https://guides.rubyonrails.org/active_record_basics.html#read)
 
---
+==
 
 ### Update
 
@@ -385,7 +385,7 @@ t.update(
 
 [Rails Guides](https://guides.rubyonrails.org/active_record_basics.html#update)
 
---
+==
 
 ### Delete
 
