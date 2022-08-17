@@ -115,16 +115,16 @@ Corre la aplicación
 --
 
 ```bash
-rails console
+rails generate
 ```
-Abre una consola en la que podemos interactuar con la aplicación y su base de datos.
+Genera archivos en base a parámetros, por ejemplo `rails generate model user email:string`
 
 --
 
 ```bash
-rails generate
+rails console
 ```
-Genera archivos en base a parámetros, por ejemplo `rails generate model user email:string`
+Abre una consola en la que podemos interactuar con la aplicación y su base de datos.
 
 ==
 
@@ -261,3 +261,139 @@ git remote add origin git@github.com:i110is/lab1.git
 ## Twitter para monstruos
 
 <small>Tenemos un 33-12</small>
+
+==
+
+<section data-background-color="#FFF">
+
+Nombre de la tabla: `tweets`
+
+|id|content                     |monster_id |
+|- |-                           |-          |
+|1|¡Me voy a chupar tu sangre   |1          |
+|2|¡Te voy a aplastar           |2          |
+|3|¡Te voy a destripar          |3          |
+|4|Feliz primavera              |4          |
+
+</section>
+
+==
+
+¿Cómo obtener el tweet con ID 3?
+
+--
+
+<p class="fragment highlight-red">Iterar sobre la tabla hasta encontrar el tweet con ID=3</p>
+
+--
+
+El nombre de la tabla en singular y con mayúscula inicial para referenciar al modelo.
+
+```ruby [1|2-7]
+third_tweet = Tweet.find(3)
+#<Tweet:0x00000001
+  id: 3,
+  content: "La mona lisa es la mona más fea",
+  monster_id: 2,
+  created_at: Sun, 14 Aug 2022 16:59:45.258329000 UTC +00:00,
+  updated_at: Sun, 14 Aug 2022 16:59:45.258329000 UTC +00:00>
+```
+
+--
+
+```ruby [1|2|3|4]
+third_tweet = Tweet.find(3)
+third_tweet.id #=> 3
+third_tweet.content #=> "La mona lisa es la mona más fea"
+third_tweet.monster #=> #<Monster:0x00000001 id: 2>
+```
+
+==
+
+## CRUD
+
+Create Read Update Destroy
+
+==
+
+### Create
+
+--
+
+```ruby [2|3|4|5]
+mike = Monster.find_by(name: "Mike Wazowski")
+t = Tweet.new
+t.content = "Donde puedo comprar anteojos de un lente?"
+t.monster = mike
+t.save
+```
+
+El ID lo asigna la DB automáticamente.
+
+[Rails Guides](https://guides.rubyonrails.org/active_record_basics.html#create)
+
+--
+
+### Read
+
+--
+
+```ruby [1-2|3-4|5-6|7-8|9-10]
+# Retornar el tweet con ID 3
+Tweet.find(3)
+# Retornar los tweets con ID 3, 4 y 5
+Tweet.where(id: [3, 4, 5])
+# Retornar el primer tweet
+Tweet.first
+# Retornar el último tweet
+Tweet.last
+# Retornar una colección con todos los tweets
+Tweet.all
+```
+
+--
+
+```ruby [1-2|3-4|5-6|7-8]
+# Retornar la cantidad de tweets
+Tweet.count
+# Retornar los tweets ordenados por fecha de creación
+Tweet.order(:created_at)
+# Retornar el monstruo cuyo nombre es igual a IPS
+Monster.find_by(name: "Introducción al procesamiento de Señales")
+# Retornar los tweets de dracula ordenados del más nuevo al más viejo
+Tweet.where(monster: Monster.find_by(name: "Drácula")).order(created_at: :desc)
+```
+
+Se pueden combinar los métodos.
+
+[Rails Guides](https://guides.rubyonrails.org/active_record_basics.html#read)
+
+--
+
+### Update
+
+--
+
+```ruby [3-6]
+demogorgon = Monster.find(name: "Demogorgon")
+t = Tweet.find(3)
+t.update(
+  content: "Encontré monolentes!",
+  monster: demogorgon
+)
+```
+
+[Rails Guides](https://guides.rubyonrails.org/active_record_basics.html#update)
+
+--
+
+### Delete
+
+--
+
+```ruby
+t = Tweet.find(3)
+t.destroy
+```
+
+[Rails Guides](https://guides.rubyonrails.org/active_record_basics.html#delete)

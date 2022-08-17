@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
     "esbuild": "^0.15.1",
+    "highlight.js": "^11.6.0",
     "reveal.js": "^4.3.1"
   }
 }
