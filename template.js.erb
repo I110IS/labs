@@ -9,7 +9,10 @@ import '<%= node_modules %>/highlight.js/styles/github.css';
 import '<%= node_modules %>/reveal.js/dist/theme/<%= theme %>.css';
 
 let deck = new Reveal({
-   plugins: [ Markdown, RevealHighlight ]
+  plugins: [ Markdown, RevealHighlight ],
+  hash: true,
+  history: true,
+  defaultTiming: 15
 })
 
 deck.initialize();
