@@ -81,6 +81,10 @@ themes.each do |theme|
          "--loader:.ttf=file")
 end
 
+# Copy assets
+puts "> Copying assets"
+FileUtils.cp_r("assets", dist_path)
+
 paths.each do |data_path|
   path = data_path[:path]
   puts "\n\n> Create #{path}"
