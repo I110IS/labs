@@ -1,0 +1,15 @@
+table {
+  background: white;
+}
+
+.reveal table th {
+  border-bottom: 4px solid #ddd;
+}
+
+.reveal table td {
+  border-bottom: 1px solid #ddd;
+}
+
+.reveal pre table td, .reveal pre table th {
+  font-size: 1.7em;
+}

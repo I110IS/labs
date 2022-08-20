@@ -271,8 +271,8 @@ Nombre de la tabla: `tweets`
 |id|content                     |monster_id |
 |- |-                           |-          |
 |1|¡Me voy a chupar tu sangre   |1          |
-|2|¡Te voy a aplastar           |2          |
-|3|¡Te voy a destripar          |3          |
+|2|¡Te voy a aplastar!          |2          |
+|3|Te voy a destripar!          |3          |
 |4|Feliz primavera              |4          |
 
 </section>
@@ -397,3 +397,9 @@ t.destroy
 ```
 
 [Rails Guides](https://guides.rubyonrails.org/active_record_basics.html#delete)
+
+==
+
+## [Práctica](https://github.com/I110IS/lab1/blob/master/README.md)
+
+> "Any fool can write code that a computer can understand. Good programmers write code that humans can understand." by Martin Fowler

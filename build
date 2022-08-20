@@ -95,10 +95,16 @@ paths.each do |data_path|
       puts "\t> #{file}"
       erb = ERB.new(template)
       content = erb.result_with_hash(config)
+
+      # Create HTML file
       File.open("#{dist_path}/#{path}/#{File.basename(file, ".md")}.html", "w") do |f|
         f.write(content)
       end
+
+      # Create Markdown companion file
       FileUtils.copy(file, "#{dist_path}/#{file}")
+
+      # Remove frontmatter from Markdown file
       Frontmatter.new("#{dist_path}/#{file}").delete
     else
       puts "\t> #{file} (skipped)"
