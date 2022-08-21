@@ -209,4 +209,4 @@ Tweet.where(id: [1, 4])
 
 ## [Práctica](https://github.com/I110IS/lab2/blob/master/README.md)
 
-> "Software and cathedrals are much the same; first we build them, then we pray." by Anonymous
+> "Software and cathedrals are much the same; first we build them, then we pray." --Anonymous
