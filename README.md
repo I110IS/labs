@@ -4,7 +4,6 @@
 
 ## TODO
 
-- Unir Modelos con Migraciones
 - Agregar Controladores y Rutas
 - Agregar laboratorio para manejo de mapas y puntos geográficos
 
