@@ -32,7 +32,7 @@ Presentación visual de la información (usuario final)
 
 <span class="fragment">`new.html.erb` > Template para crear un recurso</span>
 
-<span class="fragment">`index.html.erb` > Template para editar un recurso</span>
+<span class="fragment">`edit.html.erb` > Template para editar un recurso</span>
 
 --
 
