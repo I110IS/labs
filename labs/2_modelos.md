@@ -207,6 +207,76 @@ Tweet.where(id: [1, 4])
 
 ==
 
+## Migraciones
+
+Permiten modificar el esquema de la base de datos.
+
+```ruby
+class CreateMonsters < ActiveRecord::Migration[7.0]
+  def change
+    create_table :monsters do |t|
+      t.string :name
+      t.text :description
+
+      t.timestamps
+    end
+  end
+end
+```
+
+--
+
+¿Cómo crear una migración?
+
+```bash
+rails g migration add_details_to_tweets
+```
+
+<div class="fragment semi-fade-out">
+
+```ruby
+class AddDetailsToTweets < ActiveRecord::Migration[7.0]
+end
+```
+
+</div>
+
+<div class="fragment">
+
+```ruby
+class AddDetailsToTweets < ActiveRecord::Migration[7.0]
+  def change
+    # Para guardar desde donde se envió el tweet
+    # (por ej: Critter for iPhone)
+    add_column :tweets, :user_agent, :string
+
+    # Para configurar si el tweet es para todos,
+    # para los que sigo o a los que mencione
+    add_column :tweets, :privacy_level, :integer
+  end
+end
+```
+
+</div>
+
+--
+
+¿Cómo correr las migraciones creadas?
+
+```bash
+rails db:migrate
+```
+
+¿Cómo revertir la última migración?
+
+```bash
+rails db:rollback
+```
+
+[Más sobre migraciones](https://guides.rubyonrails.org/active_record_migrations.html)
+
+==
+
 ## [Práctica](https://github.com/I110IS/lab2/blob/master/README.md)
 
 > "Software and cathedrals are much the same; first we build them, then we pray." --Anonymous
