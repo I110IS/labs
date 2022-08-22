@@ -6,6 +6,7 @@
 
 - Agregar Controladores y Rutas
 - Agregar laboratorio para manejo de mapas y puntos geográficos
+- Agregar laboratorio para forms y APIs externas
 
 ## Development
 
