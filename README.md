@@ -4,9 +4,9 @@
 
 ## TODO
 
-- Agregar Controladores y Rutas
-- Agregar laboratorio para manejo de mapas y puntos geográficos
-- Agregar laboratorio para forms y APIs externas
+- Agregar Controladores y Rutas (lab4)
+- Agregar laboratorio para forms y APIs externas (lab5)
+- Agregar anexo para manejo de mapas y puntos geográficos (opcional) (lab6?)
 
 ## Development
 
