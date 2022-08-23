@@ -4,6 +4,7 @@
 
 ## TODO
 
+- Agregar explicación sobre seeds en la parte de migraciones (lab2)
 - Agregar Controladores y Rutas (lab4)
 - Agregar laboratorio para forms y APIs externas (lab5)
 - Agregar anexo para manejo de mapas y puntos geográficos (opcional) (lab6?)
