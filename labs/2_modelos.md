@@ -209,6 +209,8 @@ Tweet.where(id: [1, 4])
 
 ## Migraciones
 
+--
+
 Permiten modificar el esquema de la base de datos.
 
 ```ruby
@@ -276,6 +278,28 @@ rails db:rollback
 [Más sobre migraciones](https://guides.rubyonrails.org/active_record_migrations.html)
 
 ==
+
+## Seeds
+
+--
+
+Sirve para agregar datos iniciales luego de crear la base de datos.
+
+```ruby
+# db/seeds.rb
+
+5.times do |index|
+  Monster.create(name: "Monstruo #{index}", description: "Soy el monstruo #{index}")
+end
+```
+
+--
+
+¿Cómo correr el archivo de seeds?
+
+```bash
+rails db:seed
+```
 
 ## [Práctica](https://github.com/I110IS/lab2/blob/master/README.md)
 
