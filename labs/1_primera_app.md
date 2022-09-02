@@ -2,6 +2,12 @@
 published: true
 ---
 
+<section data-background-iframe="https://www.youtube-nocookie.com/embed/PfIYyh7JXIk?controls=0"
+         data-background-interactive>
+</section>
+
+==
+
 <!-- %s/^##\{1\}\s/### /g -->
 ## Ingeniería de Software 2022
 Laboratorio 1 - Primera app
@@ -89,6 +95,11 @@ Navegador
 
 ==
 
+<section data-background-iframe="https://rubyonrails.org/" data-background-interactive="false">
+</section>
+
+==
+
 ## Sobre rails
 
 --
@@ -117,7 +128,11 @@ Corre la aplicación
 ```bash
 rails generate
 ```
-Genera archivos en base a parámetros, por ejemplo `rails generate model user email:string`
+Genera archivos en base a parámetros, por ejemplo
+
+```bash
+rails generate model user email:string
+```
 
 --
 
@@ -125,12 +140,6 @@ Genera archivos en base a parámetros, por ejemplo `rails generate model user em
 rails console
 ```
 Abre una consola en la que podemos interactuar con la aplicación y su base de datos.
-
-==
-
-<section data-background-color="#f0efe7">
-  <img src="https://git-scm.com/images/logos/downloads/Git-Logo-2Color.png" width="300">
-</section>
 
 ==
 
@@ -162,6 +171,12 @@ específicas más adelante.
 
 ==
 
+<section data-background-color="#f0efe7">
+  <img src="https://git-scm.com/images/logos/downloads/Git-Logo-2Color.png" width="300">
+</section>
+
+==
+
 ## GIT
 
 ```
@@ -175,6 +190,39 @@ Para inicializar un repositorio git
 git status
 ```
 Ver el estado de los archivos
+
+```
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   labs/1_primera_app.md
+	modified:   template.html.erb
+	modified:   template.js.erb
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	labs/4_rutas_y_controladores.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+--
+
+```
+git checkout BRANCH
+```
+Para moverse a otra rama
+
+--
+
+```
+git checkout -b BRANCH
+```
+Para crear una nueva rama con nombre BRANCH
 
 --
 
@@ -200,16 +248,8 @@ Para confirmar localmente los archivos
 
 ```bash
 # Commiteando con mensaje
-git commit -m "Gurdando emails en minúsculas"
+git commit -m "Guardando emails en minúsculas"
 ```
-
-
---
-
-```
-git pull
-```
-Para descargar los cambios realizados en el repositorio remoto
 
 --
 
@@ -227,16 +267,25 @@ git push origin downcased-emails
 --
 
 ```
-git checkout BRANCH
+git pull REMOTE BRANCH
 ```
-Para moverse a otra rama
+Para descargar los cambios realizados en el repositorio remoto
+
+```
+git pull origin master
+```
 
 --
 
 ```
-git checkout -b BRANCH
+git merge BRANCH
 ```
-Para crear una nueva rama con nombre BRANCH
+Junta dos o más ramas.
+
+```
+git checkout master
+git merge downcased-emails
+```
 
 --
 
@@ -244,6 +293,24 @@ Para crear una nueva rama con nombre BRANCH
 git remote
 ```
 Para revisar los repositorios remotos presentes en tu repositorio local
+
+```
+git remote
+origin
+
+git remote show origin
+* remote origin
+  Fetch URL: git@github.com:I110IS/labs.git
+  Push  URL: git@github.com:I110IS/labs.git
+  HEAD branch: master
+  Remote branches:
+    gh-pages tracked
+    master   tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (local out of date)
+```
 
 --
 
@@ -353,7 +420,7 @@ Tweet.all
 
 --
 
-```ruby [1-2|3-4|5-6|7-8]
+```ruby [1-2|3-4|5-6|7-12]
 # Retornar la cantidad de tweets
 Tweet.count
 # Retornar los tweets ordenados por fecha de creación
@@ -361,7 +428,11 @@ Tweet.order(:created_at)
 # Retornar el monstruo cuyo nombre es igual a IPS
 Monster.find_by(name: "Introducción al procesamiento de Señales")
 # Retornar los tweets de dracula ordenados del más nuevo al más viejo
-Tweet.where(monster: Monster.find_by(name: "Drácula")).order(created_at: :desc)
+Tweet.where(
+  monster: Monster.find_by(name: "Drácula")
+).order(
+  created_at: :desc
+)
 ```
 
 Se pueden combinar los métodos.
