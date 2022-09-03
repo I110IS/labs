@@ -10,7 +10,6 @@ Presionar `s` para abrir la vista de speaker en una nueva ventana.
 
 ## TODO
 
-- Agregar Controladores y Rutas (lab4)
 - Agregar laboratorio para forms y APIs externas (lab5)
 - Agregar anexo para cargar archivos y PDFs (lab6)
 - Agregar anexo para manejo de mapas y puntos geográficos (opcional) (lab6?)
