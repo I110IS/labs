@@ -158,8 +158,6 @@ Presentación visual de la información (usuario final)
 
 ==
 
-## Anexo
-
 - [¿Qué es HTML?](https://developer.mozilla.org/en-US/docs/Web/HTML)
 - [¿Qué es CSS?](https://developer.mozilla.org/en-US/docs/Web/CSS)
 - [¿Qué es bootstrap?](https://getbootstrap.com/)
