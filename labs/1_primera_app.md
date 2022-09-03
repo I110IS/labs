@@ -96,20 +96,22 @@ Navegador
 
 <section data-background-color="#D30001">
   <img src="https://rubyonrails.org/assets/images/logo.svg" width="300">
-</section>
 
 Notas:
 Ruby on Rails es un framework para desarrollar aplicaciones web.
 Ruby es el lenguaje de programación, Rails es el nombre del framework.
 
+</section>
+
 ==
 
 <section data-background-iframe="https://rubyonrails.org/" data-background-interactive="false">
-</section>
 
 Notas:
 Mostrar empresas que usan Rails.
 Mostrar optimizado para la felicidad.
+
+</section>
 
 ==
 
