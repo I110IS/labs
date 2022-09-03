@@ -4,12 +4,13 @@
 import Reveal from '<%= node_modules %>/reveal.js';
 import Markdown from '<%= node_modules %>/reveal.js/plugin/markdown/markdown.esm.js';
 import RevealHighlight from '<%= node_modules %>/reveal.js/plugin/highlight/highlight.esm.js';
+import RevealNotes from '<%= node_modules %>/reveal.js/plugin/notes/notes.esm.js';
 import '<%= node_modules %>/reveal.js/dist/reveal.css';
 import '<%= node_modules %>/highlight.js/styles/github.css';
 import '<%= node_modules %>/reveal.js/dist/theme/<%= theme %>.css';
 
 let deck = new Reveal({
-  plugins: [ Markdown, RevealHighlight ],
+  plugins: [ Markdown, RevealHighlight, RevealNotes ],
   hash: true,
   history: true,
   defaultTiming: 15

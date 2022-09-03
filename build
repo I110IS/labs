@@ -23,6 +23,7 @@ variable_defaults = {
   node_modules: File.join(Dir.getwd, "node_modules"),
   separator: '^\n==\n',
   separator_vertical: '^\n--\n',
+  separator_notes: '^Notas?:',
   theme: config[:theme]
 }
 

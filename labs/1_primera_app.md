@@ -16,6 +16,11 @@ Laboratorio 1 - Primera app
 
 ## MVC: Model View Controller
 
+Notas:
+MVC es un patrón de diseño de aplicaciones.
+Otros patrones son Model View Presenter, Model-View-ViewModel, etc.
+MVC particularmente enfatiza la separación entre la implementación de la lógica de negocio y cómo se presenta visualmente al usuario final.
+
 ==
 
 ## Capas de la aplicación
@@ -60,7 +65,7 @@ Base de datos
 --
 
 Base de datos
-### 4. Devuelve todos los usuarios
+### 4. Acá tenés todos los usuarios
 Modelo
 
 --
@@ -93,14 +98,22 @@ Navegador
   <img src="https://rubyonrails.org/assets/images/logo.svg" width="300">
 </section>
 
+Notas:
+Ruby on Rails es un framework para desarrollar aplicaciones web.
+Ruby es el lenguaje de programación, Rails es el nombre del framework.
+
 ==
 
 <section data-background-iframe="https://rubyonrails.org/" data-background-interactive="false">
 </section>
 
+Notas:
+Mostrar empresas que usan Rails.
+Mostrar optimizado para la felicidad.
+
 ==
 
-## Sobre rails
+## Comandos
 
 --
 
@@ -108,6 +121,23 @@ Navegador
 bundle install
 ```
 Instala las gemas (dependencias) requeridas por la aplicación. Se especifican en el archivo `Gemfile`.
+
+Notas:
+Bundler es una herramienta para manejar dependencias de software y se instala automáticamente al instalar ruby.
+Bundler es el nombre pero el ejecutable es bundle.
+
+--
+
+```bash
+gem install rails
+```
+Instala la gema `rails` en el sistema operativo
+
+Notas:
+`gem` es un ejecutable para administrar liberías/gemas de ruby.
+Al ejecutar `gem install ALGO` la gema se instala a nivel del sistema operativo.
+Sin embargo al agregar la gema al Gemfile, la gema si bien se instala en tu sistema operativo, solo está disponible dentro del directorio donde se encuentra el Gemfile.
+No lo vamos a usar mucho.
 
 --
 
@@ -162,7 +192,7 @@ y hora en que lo hicieron).
 
 ==
 
-## Sistema de control de versiones
+## Source Code Manager
 
 El control de versiones es un sistema que registra los cambios
 realizados sobre un archivo o conjunto de archivos a lo largo
@@ -175,9 +205,13 @@ específicas más adelante.
   <img src="https://git-scm.com/images/logos/downloads/Git-Logo-2Color.png" width="300">
 </section>
 
+Notas:
+Git fue creado el 2005 para administrar el código fuente del kernel de Linux.
+Impulsado por Linus Torvalds y la necesidad del proyecto, luego de que BitKeeper—su versionador anterior—dejara de ofrecer el servicio gratuitamente y se viniera abajo.
+
 ==
 
-## GIT
+## Comandos de git
 
 ```
 git init
@@ -217,6 +251,10 @@ git checkout BRANCH
 ```
 Para moverse a otra rama
 
+Notas:
+Una rama es una línea de tiempo del código fuente.
+Los repositorios git siempre tienen una rama principal, `master` o `main`.
+
 --
 
 ```
@@ -239,6 +277,9 @@ git add .
 git add Gemfile Gemfile.lock
 ```
 
+Notas:
+Sirve para marcar o elegir qué archivos me interesan guardar en la línea de tiempo, la rama.
+
 --
 
 ```
@@ -250,6 +291,11 @@ Para confirmar localmente los archivos
 # Commiteando con mensaje
 git commit -m "Guardando emails en minúsculas"
 ```
+
+Notas:
+Sirve para crear un nuevo punto en la línea de tiempo. Ese punto es un `commit`.
+Una rama tiene muchos commits a lo largo del tiempo.
+Cada commit contiene información del autor de los cambios, un mensaje, un identificador, un timestamp entre otras cosas.
 
 --
 
@@ -263,6 +309,9 @@ Para enviar los cambios al repositorio remoto
 # al repositorio remoto llamado 'origin'
 git push origin downcased-emails
 ```
+
+Notas:
+Un repositorio remoto es un repositorio de git que está en otra computadora y se accede a través de internet.
 
 --
 
@@ -286,6 +335,10 @@ Junta dos o más ramas.
 git checkout master
 git merge downcased-emails
 ```
+
+Notas:
+El ejemplo es, hice commits en la rama `downcased-emails`, luego me paro en la rama `master`, y mergeo `downcased-emails` en la rama en la que estoy parado.
+`master` ahora contiene los commits de `downcased-emails`.
 
 --
 
@@ -350,7 +403,10 @@ Nombre de la tabla: `tweets`
 
 --
 
-<p class="fragment highlight-red">Iterar sobre la tabla hasta encontrar el tweet con ID=3</p>
+<p class="fragment highlight-red">Iterar sobre la tabla hasta encontrar el tweet con ID=3 ?¿</p>
+
+Notas:
+No!
 
 --
 

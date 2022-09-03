@@ -2,6 +2,12 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/16cf0f3f-f1a6-4aa8-8dba-4fdc60a07414/deploy-status)](https://app.netlify.com/sites/voluble-cat-16cf66/deploys)
 
+## ¿Cómo presentar?
+
+Presentar usando la vista full screen del browser.
+
+Presionar `s` para abrir la vista de speaker en una nueva ventana.
+
 ## TODO
 
 - Agregar Controladores y Rutas (lab4)
@@ -11,6 +17,10 @@
 
 
 ## Development
+
+`./build` usa la instalación de ruby disponible en el sistema.
+
+`npm install` para instalar reveal.js y sus dependencias por primera vez.
 
 Correr `./build` para crear las páginas finales en `./dist`.
 
