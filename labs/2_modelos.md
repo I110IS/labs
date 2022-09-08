@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 ---
 
 ## Ingeniería de Software 2022
