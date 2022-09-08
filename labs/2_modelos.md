@@ -16,25 +16,35 @@ Capas de la aplicación
 ## Modelo
 Accesos a la DB
 
+Notas:
+Es la capa del sistema responsable de representar los datos y lógica de negocios
+
 ==
 
 ## Modelos en Rails
+ActiveRecord
+
+Notas:
+ActiveRecord es la gema/librería que facilita la creación y el uso de objetos de negocios que requieren ser guardados en la DB.
 
 --
 
 <!-- Add image to models-folder.png from assets folder -->
 <img data-src="../assets/modelos-folder.png" class="r-stretch">
 
+Notas:
+Supongamos que queremos crear un sistema de recomendación de películas.
+
 --
 
 Podemos crear el archivo manualmente o usando el comando:
 
 ```bash
-rails generate model tweet content:text monster:references
+rails generate model movie title:string imbd_url:string
 ```
 
 ```ruby
-class Tweet < ApplicationRecord
+class Movie < ApplicationRecord
 end
 ```
 
@@ -47,14 +57,17 @@ end
 Se encarga, entre otras cosas, de mapear un modelo con una tabla en la base de datos.
 
 ```ruby
-class Tweet < ApplicationRecord   #=> Tabla: tweets
+class Movie < ApplicationRecord    #=> Tabla: movies
 end
 
-class Monster < ApplicationRecord #=> Tabla: monsters
+class Director < ApplicationRecord #=> Tabla: directors
 end
 ```
 
 [Más sobre ActiveRecord, la librería detrás del mapeo entre modelos y tablas](https://guides.rubyonrails.org/active_record_basics.html)
+
+Notas:
+No deberíamos permitir películas sin título en nuestro sistema, porque no tienen sentido.
 
 ==
 
@@ -63,56 +76,55 @@ end
 --
 
 ```ruby
-t = Tweet.new
-t.save
+movie = Movie.new
+movie.save
 ```
 
 <div class="fragment">
 
-|id|content                     |monster_id |
+|id|title|imdb_url|
 |- |-                           |-          |
-|1|¡Me voy a chupar tu sangre   |1          |
-|2|¡Te voy a aplastar!          |2          |
-|3|Te voy a destripar!          |3          |
-|4|Feliz primavera              |4          |
-|5| | |
+|1|Wild Tales|https://www.imdb.com/title/tt3011894/|
+|2|The Secret in Their Eyes|https://www.imdb.com/title/tt1305806/|
+|3|The Motorcycle Diaries|https://www.imdb.com/title/tt0318462/|
+|4| | |
 
 </div>
 
 --
 
 ```ruby
-# app/models/tweet.rb
+# app/models/movie.rb
 
-class Tweet < ApplicationRecord
-  validates :content, presence: true
+class Movie < ApplicationRecord
+  validates :title, presence: true
 end
 ```
 
 ```ruby [2-3|4|5-6]
 # rails console
-t = Tweet.new
-t.save
+movie = Movie.new
+movie.save
 #=> false
-t.errors.messages
-#=> {content: ["can't be blank"]}
+movie.errors.messages
+#=> {title: ["can't be blank"]}
 ```
 
 [Otras validaciones](https://guides.rubyonrails.org/active_record_validations.html#validation-helpers)
 
 --
 
-Los tweets publicados después de las 10 de la noche solo pueden tener 256 caracteres.
+Las películas creadas después de las 10 de la noche si o sí tienen que tener un `imdb_url` asignado
 
-```ruby
-# app/models/tweet.rb
+```ruby [4|6|7|8|1-11]
+# app/model/movie.rb
 
-class Tweet < ApplicationRecord
-  validate :content_must_be_lesser_than_256_chars_after_10_pm
+class Movie < ApplicationRecord
+  validate :must_have_imdb_url_when_past_ten_pm
 
-  def content_must_be_lesser_than_256_chars_after_10_pm
-    if created_at.hour >= 22 && content.size > 256
-      errors.add(:content, "can't be greater than 256 chars after 10 PM")
+  def must_have_imdb_url_when_past_ten_pm
+    if created_at.hour >= 22 && title.blank?
+      errors.add(:imdb_url, :blank, message: "must be set when current time is past 10 pm")
     end
   end
 end
@@ -126,81 +138,79 @@ end
 
 --
 
-`tweets`
-|id|content|monster_id |
-|- |-|-|
-|1|Pedí sangre añejada y me vendieron un malbec añejado|1|
-|2|AAAAAAHGHHH!|2|
-|3|Quien para asustar turistas?|3|
-|4|Feliz primavera|4|
+`movies`
+|id|title|imdb_url|
+|- |-                           |-          |
+|1|Wild Tales|https://www.imdb.com/title/tt3011894/|
+|2|The Secret in Their Eyes|https://www.imdb.com/title/tt1305806/|
+|3|The Motorcycle Diaries|https://www.imdb.com/title/tt0318462/|
 
 
-`monsters`
-|id|name|description|
+`reviews`
+|id|content|movie_id|
 |-|-|-|
-|1|Dracula|Chupa sange. Hincha del rojo. Libertario. ALA|
-|2|King Kong|Gorila gigante. #VamosAVolver. BocaJrs.|
-|3|Nahuelito|Vivo en el Nahuel Huapi. Soltero. Fanático del plancton|
-|4|James P. Sullivan|#monstropolis #scareroftheyear|
+|1|Una de las mejores películas del año|1|
+|2|La obra maestra del siglo XXI, no ahí con qué darle|1|
+|3|Amor y odio en el mejor drama moderno de la pantalla grande|2|
 
 --
 
 ```ruby
-# app/models/tweet.rb
+# app/models/review.rb
 
-class Tweet < ApplicationRecord
-  belongs_to :monster
+class Review < ApplicationRecord
+  belongs_to :movie
 end
 ```
 
 ```ruby [1-3|5-7]
-t = Tweet.first
-t.monster
-#=> Retorna una instancia de Monster
+review = Review.first
+review.movie
+#=> Retorna una instancia de Movie
 
-m = Monster.first
-t = Tweet.new(content: "Obvñzfhnhxds", monster: m)
-#=> Inicializa un tweet asociado al monster `m`
+movies = Movie.first
+review = Review.new(content: "Obvñzfhnhxds", movie: movie)
+#=> Inicializa un Review asociado a la primera película
 ```
 
-Un tweet pertenece a un monstruo
+Un review pertenece a una película
 
 --
 
 ```ruby
-# app/models/monster.rb
+# app/models/movie.rb
 
-class Monster < ApplicationRecord
-  has_many :tweets
+class Movie < ApplicationRecord
+  has_many :reviews
 end
 ```
 
 ```ruby
-m = Monster.first
-m.tweets
-#=> Retorna una colección de Tweets
+movie = Movie.first
+movie.reviews
+#=> Retorna una colección de Reviews
 ```
 
-Un monstruo tiene muchos tweets.
+Una película tiene muchos reviews.
 
 --
 
 ```ruby
-# app/models/monster.rb
+# app/models/movie.rb
 
-class Monster < ApplicationRecord
-  has_many :tweets, dependent: :destroy
+class Movie < ApplicationRecord
+  has_many :reviews, dependent: :destroy
 end
 ```
 
 ```ruby [1-3|5-7]
-m = Monster.first
-m.tweets
-#=> [#<Tweet id: 1, ...>, #<Tweet id: 4, ...>]
+m = Movie.first
+m.reviews
+#=> [#<Review id: 1, ...>, #<Review id: 2, ...>]
 
 m.destroy
-Tweet.where(id: [1, 4])
-#=> [] colección vacía, se borraron los tweets junto al monstruo
+Review.where(id: [1, 2])
+#=> [] colección vacía, se borraron los reviews junto a la película
 ```
 
 [Más sobre relaciones](https://guides.rubyonrails.org/association_basics.html)
@@ -214,11 +224,11 @@ Tweet.where(id: [1, 4])
 Permiten modificar el esquema de la base de datos.
 
 ```ruby
-class CreateMonsters < ActiveRecord::Migration[7.0]
+class CreateMovies < ActiveRecord::Migration[7.0]
   def change
-    create_table :monsters do |t|
-      t.string :name
-      t.text :description
+    create_table :movies do |t|
+      t.string :title
+      t.string :imdb_url
 
       t.timestamps
     end
@@ -231,13 +241,13 @@ end
 ¿Cómo crear una migración?
 
 ```bash
-rails g migration add_details_to_tweets
+rails g migration add_details_to_movies
 ```
 
 <div class="fragment semi-fade-out">
 
 ```ruby
-class AddDetailsToTweets < ActiveRecord::Migration[7.0]
+class AddDetailsToMovies < ActiveRecord::Migration[7.0]
 end
 ```
 
@@ -246,15 +256,10 @@ end
 <div class="fragment">
 
 ```ruby
-class AddDetailsToTweets < ActiveRecord::Migration[7.0]
+class AddDetailsToMovies < ActiveRecord::Migration[7.0]
   def change
-    # Para guardar desde donde se envió el tweet
-    # (por ej: Critter for iPhone)
-    add_column :tweets, :user_agent, :string
-
-    # Para configurar si el tweet es para todos,
-    # para los que sigo o a los que mencione
-    add_column :tweets, :privacy_level, :integer
+    add_column :movies, :release_date, :datetime
+    add_column :movies, :duration_seconds, :integer
   end
 end
 ```
@@ -289,7 +294,7 @@ Sirve para agregar datos iniciales luego de crear la base de datos.
 # db/seeds.rb
 
 5.times do |index|
-  Monster.create(name: "Monstruo #{index}", description: "Soy el monstruo #{index}")
+  Movie.create(title: "Movie #{index}", imdb_url: "https://example.com/#{index}")
 end
 ```
 
