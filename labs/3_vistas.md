@@ -41,10 +41,10 @@ Presentación visual de la información (usuario final)
 > ERB provides an easy to use but powerful templating system for Ruby. Using ERB, actual Ruby code can be added to any plain text document for the purposes of generating document information details and/or flow control. [Documentation](https://rubyapi.org/3.1/o/erb)
 
 ```erb
-<% Ruby code -- inline with output %>
-<%= Ruby expression -- replace with result %>
-<%# comment -- ignored -- useful in testing %>
-(<% # doesn't work. Don't use Ruby comments.)
+<%% Ruby code -- inline with output %>
+<%%= Ruby expression -- replace with result %>
+<%%# comment -- ignored -- useful in testing %>
+(<%% # doesn't work. Don't use Ruby comments.)
 ```
 
 ==
@@ -60,12 +60,12 @@ Presentación visual de la información (usuario final)
 ## Templates
 
 ```erb
-<%# app/views/tweets/index.html.erb %>
+<%%# app/views/tweets/index.html.erb %>
 
 <h1>Lista de tweets</h1>
-<% @tweets.each do |tweet| %>
-  Tweet: <%= tweet.content %>
-<% end %>
+<%% @tweets.each do |tweet| %>
+  Tweet: <%%= tweet.content %>
+<%% end %>
 ```
 
 [Templates](https://guides.rubyonrails.org/action_view_overview.html#templates)
@@ -75,21 +75,21 @@ Presentación visual de la información (usuario final)
 ## Partials
 
 ```erb
-<%# app/views/tweets/new.html.erb %>
+<%%# app/views/tweets/new.html.erb %>
 
 <h1>Nuevo tweet</h1>
 
-<%= render "form", tweet: @tweet %>
+<%%= render "form", tweet: @tweet %>
 ```
 
 <div class="fragment">
 
 ```erb
-<%# app/views/tweets/edit.html.erb %>
+<%%# app/views/tweets/edit.html.erb %>
 
 <h1>Editar tweet</h1>
 
-<%= render "form", tweet: @tweet %>
+<%%= render "form", tweet: @tweet %>
 ```
 
 </div>
@@ -97,12 +97,12 @@ Presentación visual de la información (usuario final)
 <div class="fragment">
 
 ```erb
-<%# app/views/tweets/_form.html.erb %>
+<%%# app/views/tweets/_form.html.erb %>
 
-<%= form_with model: @tweet do |form| %>
-  <%= form.text_field :content %>
-  <%= form.submit %>
-<% end %>
+<%%= form_with model: @tweet do |form| %>
+  <%%= form.text_field :content %>
+  <%%= form.submit %>
+<%% end %>
 ```
 
 </div>
@@ -114,12 +114,12 @@ Presentación visual de la información (usuario final)
 ## Layouts
 
 ```erb
-<%# app/views/layouts/application.html.erb %>
+<%%# app/views/layouts/application.html.erb %>
 
 <html>
   <head><title>LAB3</title></head>
   <body>
-    <%= yield %>
+    <%%= yield %>
   </body>
 </html>
 ```
@@ -135,9 +135,9 @@ Presentación visual de la información (usuario final)
 ¿Cómo insertar una imagen?
 
 ```erb
-<%# La imagen debe existir en app/assets/images %>
+<%%# La imagen debe existir en app/assets/images %>
 
-<%= image_tag "lab3.png" %>
+<%%= image_tag "lab3.png" %>
 ```
 
 --
@@ -145,13 +145,13 @@ Presentación visual de la información (usuario final)
 ¿Cómo insertar un link?
 
 ```erb
-<%= link_to monster.name, monster %>
+<%%= link_to monster.name, monster %>
 
-<%= link_to "Inicio", monsters_path %>
+<%%= link_to "Inicio", monsters_path %>
 
-<%= link_to monsters_path do %>
-  <%= image_tag "home.svg" %>
-<% end %>
+<%%= link_to monsters_path do %>
+  <%%= image_tag "home.svg" %>
+<%% end %>
 ```
 
 [Más view helpers](https://guides.rubyonrails.org/action_view_helpers.html)
@@ -163,6 +163,8 @@ Presentación visual de la información (usuario final)
 - [¿Qué es bootstrap?](https://getbootstrap.com/)
 
 ==
+
+TODO: Anexo sobre ruby: métodos, kwargs, pargs, hashes, non-parens, bloques
 
 ## [Práctica](https://github.com/I110IS/lab3/blob/master/README.md)
 

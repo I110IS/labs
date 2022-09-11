@@ -103,7 +103,10 @@ paths.each do |data_path|
       end
 
       # Create Markdown companion file
-      FileUtils.copy(file, "#{dist_path}/#{file}")
+      erbed_markdown = ERB.new(File.read(file))
+      File.open("#{dist_path}/#{file}", "w") do |f|
+        f.write(erbed_markdown.result_with_hash(config))
+      end
 
       # Remove frontmatter from Markdown file
       Frontmatter.new("#{dist_path}/#{file}").delete

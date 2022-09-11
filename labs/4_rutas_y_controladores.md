@@ -220,7 +220,7 @@ get '/accounts/:id', to: 'accounts#show', as: 'account'
 
 En la vista podríamos escribir el siguiente enlace:
 ```erb
-<%= link_to 'Cuenta', account_path(@account) %>
+<%%= link_to 'Cuenta', account_path(@account) %>
 ```
 
 Asumiendo que `@account` es una variable definida en el controlador que contiene una instancia de `Account`.
