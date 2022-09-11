@@ -168,7 +168,7 @@ review = Review.first
 review.movie
 #=> Retorna una instancia de Movie
 
-movies = Movie.first
+movie = Movie.first
 review = Review.new(content: "Obvñzfhnhxds", movie: movie)
 #=> Inicializa un Review asociado a la primera película
 ```
