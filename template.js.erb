@@ -22,4 +22,4 @@ deck.initialize({
   }
 });
 
-deck.configure({showNotes: true});
+deck.configure({showNotes: window.location.search.match(/print-pdf/gi)});

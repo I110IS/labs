@@ -292,6 +292,6 @@ Al visitar la ruta `/`, la aplicación matchea el pedido con la acción index de
 
 ==
 
-## [Práctica](https://github.com/I110IS/lab4/blob/master/README.md)
+## [Práctica 🔗](https://github.com/I110IS/lab4/blob/master/README.md)
 
 > "Before software can be reusable it first has to be usable." -Ralph Johnson

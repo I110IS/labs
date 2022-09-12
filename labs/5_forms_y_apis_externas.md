@@ -388,6 +388,6 @@ EmailValidator.new("yeimunnodducei-4596@yopmail.com").valid? #=> false
 
 ==
 
-## [Práctica](https://github.com/I110IS/lab5/blob/master/README.md)
+## [Práctica 🔗](https://github.com/I110IS/lab5/blob/master/README.md)
 
 > "A long descriptive name is better than a short enigmatic name. A long descriptive name is better than a long descriptive comment." -Robert Martin

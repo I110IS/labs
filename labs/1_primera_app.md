@@ -529,6 +529,6 @@ t.destroy
 
 ==
 
-## [Práctica](https://github.com/I110IS/lab1/blob/master/README.md)
+## [Práctica 🔗](https://github.com/I110IS/lab1/blob/master/README.md)
 
 > "Any fool can write code that a computer can understand. Good programmers write code that humans can understand." --Martin Fowler
