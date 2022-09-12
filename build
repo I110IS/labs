@@ -6,6 +6,8 @@ require "set"
 require "yaml"
 require_relative "lib/frontmatter"
 require_relative "lib/deep_transform_keys"
+require_relative "lib/html_preview"
+require_relative "lib/markdown"
 
 # Read config
 config = File.read("config.yml")
@@ -24,7 +26,8 @@ variable_defaults = {
   separator: '^\n==\n',
   separator_vertical: '^\n--\n',
   separator_notes: '^Notas?:',
-  theme: config[:theme]
+  theme: config[:theme],
+  preview_tags: config[:preview_tags]
 }
 
 template = File.read("template.html.erb")
@@ -103,9 +106,9 @@ paths.each do |data_path|
       end
 
       # Create Markdown companion file
-      erbed_markdown = ERB.new(File.read(file))
+      md = Markdown.new(source: file, config: config)
       File.open("#{dist_path}/#{file}", "w") do |f|
-        f.write(erbed_markdown.result_with_hash(config))
+        f.write(md.render)
       end
 
       # Remove frontmatter from Markdown file

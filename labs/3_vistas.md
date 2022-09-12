@@ -164,8 +164,8 @@ Presentación visual de la información (usuario final)
 
 ==
 
-TODO: Anexo sobre ruby: métodos, kwargs, pargs, hashes, non-parens, bloques
+<!-- TODO: Anexo sobre ruby: métodos, kwargs, pargs, hashes, non-parens, bloques -->
 
 ## [Práctica](https://github.com/I110IS/lab3/blob/master/README.md)
 
-> "Inside every large program is a small program struggling to get out." --Tony Hoare
+> "A user interface is like a joke. If you have to explain it, it’s not that good." -[via Hackernoon](https://hackernoon.com/30-jokes-only-programmers-will-get-a901e1cea549)
