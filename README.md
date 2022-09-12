@@ -10,10 +10,22 @@ Presionar `s` para abrir la vista de speaker en una nueva ventana.
 
 ## TODO
 
-- Agregar laboratorio para forms y APIs externas (lab5)
 - Agregar anexo para cargar archivos y PDFs (lab6)
 - Agregar anexo para manejo de mapas y puntos geográficos (opcional) (lab6?)
 
+## Deployment
+
+El build script para deployment es:
+
+```
+npm install && ./build
+```
+
+El publish directory después de correr el build script es:
+
+```
+./dist
+```
 
 ## Development
 
