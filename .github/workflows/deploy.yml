@@ -8,9 +8,10 @@ on:
   workflow_dispatch:
 
 env:
-  REMOTE_URI: github.com/I110IS/i110is.github.io.git
-  REMOTE_NAME: pages
-  BRANCH_NAME: gh-pages
+  DEPLOY_REMOTE_URI: github.com/I110IS/i110is.github.io.git
+  DEPLOY_REMOTE_NAME: pages
+  DEPLOY_REPO_NAME: i110is.github.io
+  DEPLOY_BRANCH_NAME: gh-pages
 
 jobs:
   build:
@@ -26,7 +27,8 @@ jobs:
 
       - name: Configure git
         run: |
-          git remote add ${{ env.REMOTE_NAME }} https://${{ env.REMOTE_URL }}
+          git config --global user.name "Deploy Bot"
+          git config --global user.email "<>"
           git config user.name "Deploy Bot"
           git config user.email "<>"
 
@@ -36,8 +38,10 @@ jobs:
 
       - name: Commit & push
         run: |
-          mv dist/ docs/
+          cd ..
+          git clone https://${{ secrets.DEPLOY_USERNAME }}:${{ secrets.DEPLOY_ACCESS_TOKEN }}@${{ env.DEPLOY_REMOTE_URI }} target
+          mv labs/dist/ target/docs/
+          cd target
           git add docs
           git commit -m "${{ format('[Deploy] {0}', steps.timestamp.outputs.value) }}"
-          git checkout -B ${{ env.BRANCH_NAME }}
-          git push https://${{ secrets.DEPLOY_USERNAME }}:${{ secrets.DEPLOY_ACCESS_TOKEN }}@${{ env.REMOTE_URI }} -f
+          git push https://${{ secrets.DEPLOY_USERNAME }}:${{ secrets.DEPLOY_ACCESS_TOKEN }}@${{ env.DEPLOY_REMOTE_URI }} -f
