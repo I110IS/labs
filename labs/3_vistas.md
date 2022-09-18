@@ -255,7 +255,7 @@ El archivo `application.bootstrap.scss` es creado por rails y se puede modificar
 
 SCSS es un preprocesador de CSS, simplemente para simplificar el uso de CSS.
 
-Para compilar SCSS en CSS se debe correr `yarn build:css --watch`
+Para compilar SCSS en CSS se debe correr `yarn build:css --watch`.
 
 ==
 
