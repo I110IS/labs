@@ -1,0 +1,38 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: npm
+        run: npm install
+      - name: Build
+        run: ./build
+
+      - name: Configure git
+        run: |
+          git remote add pages git@github.com:I110IS/i110is.github.io.git
+          git config user.name "Deploy Bot"
+          git config user.email "<>"
+
+      - name: Timestamp
+        id: timestamp
+        run: echo "::set-output name=value::$(date +'%Y-%m-%dT%H:%M:%S')"
+
+      - name: Commit & push
+        run: |
+          mv dist/ docs/
+          git add docs
+          git commit -m "${{ format('[Deploy] {0}', steps.timestamp.outputs.value) }}"
+          git checkout -B gh-pages
+          git push pages gh-pages -f
