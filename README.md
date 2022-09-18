@@ -1,6 +1,6 @@
 # I110IS Labs
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/16cf0f3f-f1a6-4aa8-8dba-4fdc60a07414/deploy-status)](https://app.netlify.com/sites/voluble-cat-16cf66/deploys)
+[![Deploy](https://github.com/I110IS/labs/actions/workflows/deploy.yml/badge.svg)](https://github.com/I110IS/labs/actions/workflows/deploy.yml)
 
 ## ¿Cómo presentar?
 
