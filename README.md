@@ -1,6 +1,7 @@
 # I110IS Labs
 
 [![Deploy](https://github.com/I110IS/labs/actions/workflows/deploy.yml/badge.svg)](https://github.com/I110IS/labs/actions/workflows/deploy.yml)
+[![pages-build-deployment](https://github.com/I110IS/i110is.github.io/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/I110IS/i110is.github.io/actions/workflows/pages/pages-build-deployment)
 
 ## ¿Cómo presentar?
 
