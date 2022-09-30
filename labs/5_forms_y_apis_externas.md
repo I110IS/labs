@@ -129,7 +129,7 @@ Escribamos el formulario para crear un tweet.
 
 Notas:
 El verbo acá usado es POST, porque el servidor debe crear un recurso (tweet) con esta información.
-El verbo es asignado automáticamente por Rails, y es `GET` porque `tweet` es una instancia nueva no persistida en la DB.
+El verbo es asignado automáticamente por Rails, y es `POST` porque `tweet` es una instancia nueva no persistida en la DB.
 
 --
 
@@ -214,7 +214,7 @@ Configuremos el nivel de privacidad
 
 --
 
-Nuestras aplicaiones no pueden resolver todos los problemas que se presentan.
+Nuestras aplicaciones no pueden resolver todos los problemas que se presentan.
 
 Podemos buscar servicios externos que resuelvan esos problemas por nosotros.
 
@@ -250,7 +250,7 @@ Me guardo la API key en las credenciales de Rails.
 
 La API key funciona como una contraseña e indentificador que le permite a AbstractAPI asociar el pedido con mi cuenta.
 
-<img src="abstract-api-api-key.png">
+<img src="/assets/abstract-api-api-key.png">
 
 --
 
@@ -348,12 +348,15 @@ class EmailValidator
   def valid?
     response = self.class.get("/", {
       query: {
-        api_key: Rails.application.credentials.abstractapi_api_key,
+        api_key: Rails.application
+          .credentials
+          .abstractapi_api_key,
         email: @email
       }
     })
 
-    response["is_valid_format"]["value"] && !response["is_disposable_email"]["value"]
+    response["is_valid_format"]["value"] && 
+      !response["is_disposable_email"]["value"]
   end
 end
 ```
@@ -382,8 +385,10 @@ end
 Para probarlo podemos abrir una consola de Rails e intentar validar una instancia de nuestro modelo o usar directamente el validador que creamos.
 
 ```ruby
-EmailValidator.new("valid@gmail.com").valid? #=> true
-EmailValidator.new("yeimunnodducei-4596@yopmail.com").valid? #=> false
+EmailValidator.new("valid@gmail.com").valid? 
+#=> true
+EmailValidator.new("yeimunnodducei-4596@yopmail.com").valid? 
+#=> false
 ```
 
 ==
