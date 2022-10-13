@@ -47,16 +47,19 @@ Después:
 
 --
 
-## ¿Cómo agregamos un botón que abra el diálogo de imprimir sin necesidad de hacer CTRL+P o Archivo+Imprimir?
+¿Cómo agregamos un botón que abra el diálogo de imprimir sin necesidad de hacer CTRL+P o Archivo+Imprimir?
 
 --
 
-```erb
+```erb[1-8|8]
 <%%# app/views/tweets/show.html.erb
 
 <%%# ... %>
 
-<%%= link_to "Imprimir", "#", class: "btn", onclick: "window.print()" %>
+<%%= link_to "Imprimir",
+  "#",
+  class: "btn",
+  onclick: "window.print()" %>
 ```
 
 ==
