@@ -511,7 +511,9 @@ path = CABA.map do |point|
   "(#{point.join(",")})"
 end.join(",")
 
-@monsters = @monsters.where("location_point <@ polygon(path '#{path}')")
+@monsters = @monsters.where(
+  "location_point <@ polygon(path '#{path}')"
+)
 #=> Obtengo los monstruos creados dentro de CABA
 ```
 
