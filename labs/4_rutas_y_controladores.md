@@ -66,7 +66,7 @@ class MonstersController < ApplicationController
     if @monster.save
       redirect_to @monster
     else
-      render :new
+      render :new, status: :see_other
     end
   end
 end
@@ -90,7 +90,7 @@ class MonstersController < ApplicationController
     if @monster.save
       redirect_to @monster
     else
-      render :new
+      render :new, status: :see_other
     end
   end
 end
@@ -147,7 +147,7 @@ def create
   if @monster.save
     redirect_to @monster, notice: "Todo legal"
   else
-    render :new
+    render :new, status: :see_other
   end
 end
 ```
@@ -173,12 +173,16 @@ def create
   if @monster.save
     redirect_to @monster, notice: "Todo legal"
   else
-    render :new
+    render :new, status: :see_other
   end
 end
 ```
 
 Renderiza el template `new.html.erb` para este controlador.
+
+--
+
+En las nuevas versiones de rails se precisa agregar `status: :see_other` para que funcione correctamente con [turbo](https://turbo.hotwired.dev/).
 
 ==
 
