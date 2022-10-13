@@ -163,7 +163,7 @@ Así como usamos `.img-thumbnail`, Bootstrap tiene más clases [https://getboots
 
 **Latitud y longitud.** <!-- .element class="fragment" -->
 
-¿Dónde podemos guardamos información geográfica? <!-- .element class="fragment" -->
+¿Dónde podemos guardar información geográfica? <!-- .element class="fragment" -->
 
 **Base de datos** <!-- .element class="fragment" -->
 
