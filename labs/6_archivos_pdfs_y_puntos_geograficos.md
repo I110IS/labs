@@ -410,7 +410,7 @@ resources :locations, only: :create
 
 --
 
-Ahora tenemos que hacer que el navegador envíe la ubicación cuando un monstruo abre la aplicación.
+Ahora tenemos que hacer que el navegador envíe la ubicación cuando un monstruo abra la aplicación.
 
 ```erb[]
 <%%# app/views/layouts/application.html.erb %>
