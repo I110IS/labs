@@ -8,4 +8,4 @@ published: true
 1. [Vistas](/labs/3_vistas.html)
 1. [Rutas y controladores](/labs/4_rutas_y_controladores.html)
 1. [Formularios y APIs externas](/labs/5_forms_y_apis_externas.html)
-<!-- 1. [Archivos, PDFs y puntos geográficos](/labs/6_archivos_pdfs_y_puntos_geograficos.html) -->
+1. [Archivos, PDFs y puntos geográficos](/labs/6_archivos_pdfs_y_puntos_geograficos.html)
