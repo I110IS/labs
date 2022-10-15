@@ -485,7 +485,22 @@ Y ahora sí, la vista será renderizada con la ubicación, incluso luego de la p
 
 --
 
-Me defino una colección de puntos que determinen el perímetro de CABA.
+Conociendo los puntos que determinan el perímetro de CABA, puedo escribir la siguiente consulta:
+
+[Polígonos en postgres](https://www.postgresql.org/docs/current/functions-geometry.html#:~:text=polygon%20)
+
+[<@ contained by](https://www.postgresql.org/docs/current/functions-geometry.html#:~:text=geometric_type%20%3C%40%20geometric_type%20%E2%86%92%20boolean)
+
+```ruby[]
+@monsters = @monsters.where(
+  "location_point <@ polygon(path '(-34.526471, -58.456989), (-34.55051, -58.500248), (-34.616086, -58.531834), ...')"
+)
+#=> Obtengo los monstruos creados dentro de CABA
+```
+
+--
+
+Poniendo el código un poco más elegante, me guardo los puntos que arman el perímetro de CABA en una constante.
 
 ```ruby[]
 CABA = [
@@ -502,15 +517,23 @@ CABA = [
 
 --
 
-[Polígonos en postgres](https://www.postgresql.org/docs/current/functions-geometry.html#:~:text=polygon%20)
-
-[<@ contained by](https://www.postgresql.org/docs/current/functions-geometry.html#:~:text=geometric_type%20%3C%40%20geometric_type%20%E2%86%92%20boolean)
-
-```ruby[]
+```ruby[1-20|1-2|3-7|10-12|14-20]
+# Itero sobre todos los puntos
 path = CABA.map do |point|
+  # Un punto es un arreglo de dos elementos, lat y lng
+  # Los junto con una coma usando #join
+  # Envuelvo el punto entre paréntesis
+  # Todo en un string
   "(#{point.join(",")})"
-end.join(",")
+end
 
+# Finalmente, junto todos los strings anteriores
+# con una coma entre ellos
+path = path.join(",")
+
+# En lugar de escribir el path completo en la misma
+# consulta, uso interpolación de strings para
+# agregar el path que armamos en el paso anterior
 @monsters = @monsters.where(
   "location_point <@ polygon(path '#{path}')"
 )
@@ -523,7 +546,7 @@ end.join(",")
 
 --
 
-Usaremos la ubicación actual que guardamos en la sesión.
+Conociendo la ubicación del usuario actual podemos escribir lo siguiente:
 
 [<-> distancia](https://www.postgresql.org/docs/current/functions-geometry.html#:~:text=Computes%20the%20distance%20between%20the%20objects)
 
@@ -535,7 +558,29 @@ def index
 
   @monsters = @monsters.order(
     Arel.sql(
-      "point(#{session[:lat]}, #{session[:lng]}) <-> geo_point"
+      "point(-34.531834, -58.460766) <-> location_point"
+    )
+  )
+end
+```
+
+--
+
+La ubicación quedó estática en el código, **¿cómo hacemos para que sea dinámica?** Cosa de que ordene por cercanía según el usuario actual.
+
+Usaremos la ubicación actual que guardamos en la sesión en pasos anteriores. <!-- .element class="fragment" -->
+
+--
+
+```ruby[]
+# app/controllers/monsters_controller.rb
+
+def index
+  # ...
+
+  @monsters = @monsters.order(
+    Arel.sql(
+      "point(#{session[:lat]}, #{session[:lng]}) <-> location_point"
     )
   )
 end
