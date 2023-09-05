@@ -3,7 +3,7 @@ published: true
 ---
 
 ## Ingeniería de Software 2022
-Laboratorio 5 - Formularios y APIs externas
+Laboratorio 5 - Formularios, archivos y PDFs
 
 ==
 
@@ -210,186 +210,147 @@ Configuremos el nivel de privacidad
 
 ==
 
-## APIs externas
+## ¿Cómo generar PDFs?
+
+[window.print()](https://developer.mozilla.org/en-US/docs/Web/API/Window/print) nos permite abrir el diálogo para imprimir una página en el navegador.
+
+Notas:
+No lo haremos server side por que implica más trabajo y no hay mucha diferencia.
 
 --
 
-Nuestras aplicaciones no pueden resolver todos los problemas que se presentan.
+Usaremos una clase provista por bootstrap para especificar si algún elemento debe ser oculto al imprimir.
 
-Podemos buscar servicios externos que resuelvan esos problemas por nosotros.
+`.d-print-none`
+
+[https://getbootstrap.com/docs/5.2/utilities/display/#display-in-print](https://getbootstrap.com/docs/5.2/utilities/display/#display-in-print)
 
 --
 
-Las APIs externas no son más que aplicaciones web servidas por terceros.
+```html
+<%%# app/views/application/_left_sidebar.html.erb %>
 
-Nuestras aplicaciones se puden autenticar contra ellas—depende de la API—y consumirlas a través de pedidos HTTP.
+<div class="py-2 d-print-none">
+  <%%# ... %>
+```
+
+Para probar presionamos CTRL+P (para imprimir) y el left sidebar no estará presente en el preview.
+
+--
+
+Antes:
+
+<img data-src="../assets/antes-print.png" class="r-stretch">
+
+--
+
+Después:
+
+<img data-src="../assets/despues-print.png" class="r-stretch">
+
+--
+
+¿Cómo agregamos un botón que abra el diálogo de imprimir sin necesidad de hacer CTRL+P o Archivo+Imprimir?
+
+--
+
+```erb[1-8|8]
+<%%# app/views/tweets/show.html.erb
+
+<%%# ... %>
+
+<%%= link_to "Imprimir",
+  "#",
+  class: "btn",
+  onclick: "window.print()" %>
+```
 
 ==
 
-Supongamos que nuestra aplicación requiere enviar emails de comunicación a nuestros usuarios de tal manera que los usuarios no podrían usar la aplicación de no ser por los emails que le enviamos.
+## ¿Cómo permitir cargar archivos?
 
-Necesitamos verificar que los emails que ingresan los usuarios no solamente sean válidos sino que también no sean direcciones desechables.
-
-¿Cómo lo hacemos?
+[Active Storage](https://guides.rubyonrails.org/active_storage_overview.html)
 
 --
 
-Usamos una API externa. Para esta explicación usaremos https://www.abstractapi.com/api/email-verification-validation-api
-
-==
-
-La mayoría de las APIs externas requieren autenticación. Por ende el primer paso es crear una cuenta para poder usar su servicio.
-
-[Crear una cuenta](https://app.abstractapi.com/users/signup?target=/api/email-validation/pricing/select)
-
-<img src="/assets/abstract-api-sign-up.png">
-
---
-
-Me guardo la API key en las credenciales de Rails.
-
-La API key funciona como una contraseña e indentificador que le permite a AbstractAPI asociar el pedido con mi cuenta.
-
-<img src="/assets/abstract-api-api-key.png">
-
---
-
-Las credenciales de Rails es un archivo encriptado que permite guardar credenciales privadas y commitear el archivo encriptado con git.
-
-[Más sobre las credenciales de Rails](https://guides.rubyonrails.org/security.html#environmental-security)
+Primero instalemos lo necesario para usar Active Storage.
 
 ```bash
-rails credentials:edit
+bin/rails active_storage:install
+bin/rails db:migrate
 ```
 
-```
-secret_key_base: 3b7cd72...
-abstractapi_api_key: ddff47...
-```
+[Setup](https://guides.rubyonrails.org/active_storage_overview.html#setup)
 
 --
 
-Las APIs se consumen a través de pedidos HTTP. Nuestra aplicación envía un pedido y la API externa la recibe y nos responde con la información pertinente.
+Vamos a hacer que un monstruo pueda cargar fotos a su tweet.
 
-¿Cómo le enviamos pedidos HTTP a la API externa?
+Como queremos que haya muchas fotos para un tweet, usaremos `has_many_attached`
 
-==
-
-Podemos usar la librería provista por la standard library de Ruby, o podemos elegir otra librería. [https://www.ruby-toolbox.com/categories/http_clients](https://www.ruby-toolbox.com/categories/http_clients).
-
-Usaremos [httparty](https://github.com/jnunemaker/httparty/tree/master/docs)
+[has_many_attached](https://guides.rubyonrails.org/active_storage_overview.html#has-many-attached)
 
 --
 
-Primera paso es instalar la gema
+```ruby[]
+# app/models/tweet.rb
 
-```ruby
-# Gemfile
+class Tweet < ApplicationRecord
+  # ...
 
-gem "httparty"
-```
-
-```bash
-bundle install
-```
-
---
-
-Creamos una clase para interactuar con la API de AbstractAPI.
-
-```ruby
-# app/models/email_validator.rb
-
-class EmailValidator
+  has_many_attached :images
 end
 ```
 
 --
 
-El constructor deberá recibir un email para validar.
+```ruby[1-20|17]
+# app/controllers/tweets_controller.rb
 
-```ruby [2-4]
-class EmailValidator
-  def initialize(email)
-    @email = email
+class TweetsController < ApplicationController
+  # ...
+
+  def create
+    tweet = Tweet.create!(tweet_params)
+    redirect_to tweet
   end
-end
 
---
+  private
 
-Incluyamos HTTParty y configuremos la URI base.
-
-```ruby [2-4]
-class EmailValidator
-  include HTTParty
-
-  base_uri "https://emailvalidation.abstractapi.com/v1/"
-
-  def initialize(email)
-    @email = email
+  def tweet_params
+    params.require(:tweet).permit(
+      :content,
+      :monster_id,
+      images: []
+    )
   end
 end
 ```
 
 --
 
-Escribamos el método que envía el pedido y realiza la validación. Recordemos que queremos validar que el email sea válido y no desechable.
+```erb[]
+<%%# app/views/tweets/_form.html.erb %>
 
-```ruby [10|11-16|18]
-class EmailValidator
-  include HTTParty
+<%%= form_with model: tweet do |f| %>
+  <%%# ... %>
 
-  base_uri "https://emailvalidation.abstractapi.com/v1/"
-
-  def initialize(email)
-    @email = email
-  end
-
-  def valid?
-    response = self.class.get("/", {
-      query: {
-        api_key: Rails.application
-          .credentials
-          .abstractapi_api_key,
-        email: @email
-      }
-    })
-
-    response["is_valid_format"]["value"] && 
-      !response["is_disposable_email"]["value"]
-  end
-end
+  <%%= form.file_field :images, multiple: true %>
 ```
 
 --
 
-Y finalmente lo agregamos como una validación en nuestro modelo.
+```erb[]
+<%%# app/views/tweets/_tweet.html.erb %>
 
-```ruby
-# app/models/user.rb
+<%%# ... %>
 
-class User < ApplicationRecord
-  validate :email_must_be_valid_and_not_disposable
-
-  def email_must_be_valid_and_not_disposable
-    if EmailValidator.new(email).valid?
-      return
-    else
-      errors.add(:email, :invalid)
-    end
-  end
-end
-
---
-
-Para probarlo podemos abrir una consola de Rails e intentar validar una instancia de nuestro modelo o usar directamente el validador que creamos.
-
-```ruby
-EmailValidator.new("valid@gmail.com").valid? 
-#=> true
-EmailValidator.new("yeimunnodducei-4596@yopmail.com").valid? 
-#=> false
+<%% tweet.images.each do |image| %>
+  <%%= image_tag image, class: "img-thumbnail" %>
+<%% end %>
 ```
+
+Así como usamos `.img-thumbnail`, Bootstrap tiene más clases [https://getbootstrap.com/docs/5.2/content/images/#responsive-images](https://getbootstrap.com/docs/5.2/content/images/#responsive-images).
 
 ==
 
