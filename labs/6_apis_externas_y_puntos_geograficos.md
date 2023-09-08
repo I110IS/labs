@@ -2,7 +2,7 @@
 published: true
 ---
 
-## Ingeniería de Software 2022
+## Ingeniería de Software 2023
 Laboratorio 6 - APIs externas y puntos geográficos
 
 ==
