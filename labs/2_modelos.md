@@ -311,3 +311,42 @@ rails db:seed
 ## [Práctica 🔗](https://github.com/I110IS/lab2/blob/master/README.md)
 
 > "Software and cathedrals are much the same; first we build them, then we pray." --Anonymous
+
+==
+
+## Ping pong sobre Modelos
+
+--
+
+1. ¿Qué es ActiveRecord?
+
+Notas:
+ActiveRecord es la gema/librería provista por Rails que facilita la creación y el uso de objetos de negocios que requieren ser guardados en la DB.
+
+--
+
+2. ¿Cuál es la diferencia entre un modelo y una tabla?
+
+Notas:
+Un modelo es una clase en Ruby y una tabla es un lugar físico para guardar filas en la base de datos.
+
+--
+
+3. ¿Qué tipos de validadores existen?
+
+Notas:
+Presencia, numericalidad, formato, customs, ...
+
+--
+
+4. ¿De qué formas puedo asociar modelos entre sí?
+
+Notas:
+Con belongs_to y has_many
+
+--
+
+5. ¿Para qué sirve una migración?
+
+Notas:
+Para modificar el esquema de la base de datos.
