@@ -186,7 +186,7 @@ Hay muchas formas de iterar una colección, #each y #map son las más comunes.
 En las vistas usaremos #each.
 
 ```erb
-<%%= tweets.each do |tweet| %>
+<%% tweets.each do |tweet| %>
   <%%= tweet.content %>
 <%% end %>
 ```
