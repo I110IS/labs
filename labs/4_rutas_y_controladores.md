@@ -299,3 +299,42 @@ Al visitar la ruta `/`, la aplicación matchea el pedido con la acción index de
 ## [Práctica 🔗](https://github.com/I110IS/lab4/blob/master/README.md)
 
 > "Before software can be reusable it first has to be usable." -Ralph Johnson
+
+==
+
+## Ping pong sobre rutas y controladores
+
+--
+
+1. ¿Qué controlador y método se ejecutará cuando el usuario visite `/appointments/edit`
+
+Notas:
+AppointmentsController, el método edit
+
+--
+
+2. ¿Cómo se acceden a los parametros en un controller?
+
+Notas:
+A través de `params` y las claves se acceden como un hash en ruby.
+
+--
+
+3. ¿Qué debo usar para restringir los parametros a procesar en un controlador?
+
+Notas:
+StrongParameters
+
+--
+
+4. ¿Donde se definen las rutas? ¿Qué método puedo usar para definir las rutas más comunes para un modelo?
+
+Notas:
+Se definen en `config/routes.rb`. `resources`
+
+--
+
+5. ¿Cuáles son los verbos http?
+
+Notas:
+GET, POST, PUT, PATCH, entre otros
